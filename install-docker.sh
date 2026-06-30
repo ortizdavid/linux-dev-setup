@@ -25,4 +25,13 @@ sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plug
 # 7. Verificar se o Docker foi instalado e está rodando
 sudo systemctl status docker --no-pager
 
+# 1. Cria o grupo docker (se ainda não existir)
+sudo groupadd docker
+
+# 2. Adiciona o utilizador atual ao grupo
 sudo usermod -aG docker $USER
+
+# 3. Dá permissão à socket do Docker
+sudo chmod 666 /var/run/docker.sock
+newgrp docker
+sudo chmod 666 /var/run/docker.sock

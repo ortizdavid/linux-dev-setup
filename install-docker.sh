@@ -24,3 +24,5 @@ sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plug
 
 # 7. Verificar se o Docker foi instalado e está rodando
 sudo systemctl status docker --no-pager
+
+sudo usermod -aG docker $USER

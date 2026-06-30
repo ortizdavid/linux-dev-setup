@@ -4,40 +4,35 @@
 set -e
 
 echo "=========================================="
-echo "🚀 Iniciando a instalação do ambiente..."
+echo "🚀 Iniciando a instalação do ambiente Python..."
 echo "=========================================="
 
 # 1. Atualizar o sistema e instalar dependências básicas
-echo "🔄 Atualizando listas de pacotes..."
-sudo apt-get update
-sudo apt-get install -y ca-certificates curl gnupg software-properties-common
+echo "🔄 Atualizando listas de pacotes básicas..."
+sudo apt update
+sudo apt install -y ca-certificates curl gnupg software-properties-common
 
-# 2. Configurar o repositório oficial do Docker (com /dev/null)
-echo "🐳 Configurando Docker..."
-sudo install -m 0755 -d /etc/apt/keyrings
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg 2> /dev/null
+# 2. Adicionar o repositório oficial para versões recentes do Python
+echo "🐍 Adicionando repositório Deadsnakes PPA..."
+sudo add-apt-repository -y ppa:deadsnakes/ppa
+sudo apt update
 
-echo \
-  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
-  $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
-  sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+# 3. Instalar Python 3.14, Venv e Dev tools
+echo "📦 Instalando Python 3.14, módulos de ambiente virtual e desenvolvimento..."
+sudo apt install -y python3.14 python3.14-venv python3.14-dev
 
-# 3. Instalar o Docker e seus plugins
-echo "📦 Instalando Docker, Docker Compose e componentes..."
-sudo apt-get update
-sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+# 4. Instalar e garantir o PIP oficial para o Python 3.14
+echo "🧪 Configurando o PIP para o Python 3.14..."
+curl -sS https://bootstrap.pypa.io/get-pip.py | python3.14
 
-# 4. Instalar Python 3, Pip e Virtualenv
-echo "🐍 Instalando Python 3, Pip e Virtualenv..."
-sudo apt-get install -y python3 python3-pip python3-venv
-
-# 5. Adicionar o usuário atual ao grupo do Docker (para não precisar de sudo no docker)
-echo "👤 Ajustando permissões do Docker para o usuário $USER..."
-sudo usermod -aG docker $USER
+# 5. Limpeza de cache de pacotes para manter o sistema limpo
+echo "🧹 Limpando cache do gerenciador de pacotes..."
+sudo rm -rf /var/lib/apt/lists/*
 
 echo "=========================================="
 echo "✅ Instalação concluída com sucesso!"
 echo "=========================================="
-echo "⚠️  IMPORTANTE: Para que a permissão do Docker funcione sem 'sudo',"
-echo "   feche este terminal e abra-o novamente (ou faça logout/login)."
+echo "💡 Para criar um ambiente virtual no seu projeto use:"
+echo "   python3.14 -m venv .venv"
+echo "   source .venv/bin/activate"
 echo "=========================================="

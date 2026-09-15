@@ -42,6 +42,8 @@ sudo apt install -y \
     php-imagick \
     php-readline
 
+sudo apt install -y php-opcache
+
 echo "✅ PHP instalado com sucesso! Versão atual:"
 php -v
 

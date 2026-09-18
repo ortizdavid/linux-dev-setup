@@ -1,13 +1,13 @@
 echo "=========================================="
-echo "🚀 Instalando .NET 10 SDK, Runtimes e HTTPS..."
+echo "🚀 Instalando a versão mais recente do .NET SDK..."
 echo "=========================================="
 
 # 1. Baixar o script de instalação oficial da Microsoft
 curl -sSL https://dot.net/v1/dotnet-install.sh -o dotnet-install.sh
 chmod +x dotnet-install.sh
 
-# 2. Instalar o .NET 10 SDK
-./dotnet-install.sh --version latest --channel 10.0
+# 2. Instalar o SDK mais recente do canal atual/estável
+./dotnet-install.sh --version latest --channel Latest
 
 # 3. Limpar o script baixado
 rm dotnet-install.sh
@@ -18,7 +18,7 @@ export PATH=$PATH:$DOTNET_ROOT:$DOTNET_ROOT/tools
 
 if ! grep -q 'DOTNET_ROOT' ~/.bashrc; then
     echo '' >> ~/.bashrc
-    echo '# --- .NET 10 Configuration ---' >> ~/.bashrc
+    echo '# --- .NET Configuration ---' >> ~/.bashrc
     echo 'export DOTNET_ROOT=$HOME/.dotnet' >> ~/.bashrc
     echo 'export PATH=$PATH:$DOTNET_ROOT:$DOTNET_ROOT/tools' >> ~/.bashrc
 fi
@@ -36,7 +36,7 @@ echo "🧪 Validando a instalação..."
 echo "=========================================="
 
 if $HOME/.dotnet/dotnet --version &> /dev/null; then
-    echo "✅ .NET 10 instalado com sucesso!"
+    echo "✅ .NET instalado com sucesso!"
     echo "📌 Versão do SDK:" $($HOME/.dotnet/dotnet --version)
     echo ""
     echo "📌 Runtimes instalados:"
@@ -45,7 +45,7 @@ if $HOME/.dotnet/dotnet --version &> /dev/null; then
     echo "📌 Estado do Certificado HTTPS:"
     $HOME/.dotnet/dotnet dev-certs https --check
 else
-    echo "⚠️ Falha ao verificar a instalação do .NET 10."
+    echo "⚠️ Falha ao verificar a instalação do .NET."
 fi
 
 echo "=========================================="
